@@ -29,6 +29,12 @@ export default [
     component: './Welcome',
   },
   {
+    path: '/aiDoctor',
+    name: 'AI问诊',
+    icon: 'smile',
+    component: './AiDoctor',
+  },
+  {
     path: '/admin',
     name: 'admin',
     icon: 'crown',
