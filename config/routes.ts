@@ -30,8 +30,8 @@ export default [
   },
   {
     path: '/aiDoctor',
-    name: 'AI问诊',
-    icon: 'smile',
+    name: 'aiDoctor',
+    icon: 'aliwangwang',
     component: './AiDoctor',
   },
   {

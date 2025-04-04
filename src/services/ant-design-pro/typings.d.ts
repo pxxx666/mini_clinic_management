@@ -98,4 +98,33 @@ declare namespace API {
     description?: string;
     type?: NoticeIconItemType;
   };
+
+  interface RegisterDto {
+    email: string;
+    password: string;
+    confirmPassword?: string;
+    role: string;
+  }
+
+  interface LoginDto {
+    email: string;
+    password?: string;
+    code?: string;
+  }
+
+  interface TokenResult {
+    access_token: string;
+  }
+
+  interface UserVO {
+    userId: number;
+    email: string;
+    role: string;
+  }
+
+  interface IResponse<T> {
+    code: number;
+    message: string;
+    data: T;
+  }
 }

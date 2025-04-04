@@ -1,11 +1,12 @@
-import { AvatarDropdown, AvatarName, Footer, SelectLang } from '@/components';
-import { currentUser as queryCurrentUser } from '@/services/ant-design-pro/api';
+import { AvatarDropdown, AvatarName, Footer } from '@/components';
 import type { Settings as LayoutSettings } from '@ant-design/pro-components';
 import { SettingDrawer } from '@ant-design/pro-components';
 import type { RunTimeLayoutConfig } from '@umijs/max';
 import { history } from '@umijs/max';
+import { message } from 'antd';
 import defaultSettings from '../config/defaultSettings';
-import { errorConfig } from './requestErrorConfig';
+import { useTokenLocalStorage } from './hooks/useTokenLocalStorage';
+import { queryCurrentUser } from './services/ant-design-pro';
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
 
@@ -14,18 +15,16 @@ const loginPath = '/user/login';
  * */
 export async function getInitialState(): Promise<{
   settings?: Partial<LayoutSettings>;
-  currentUser?: API.CurrentUser;
+  currentUser?: API.UserVO;
   loading?: boolean;
-  fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
+  fetchUserInfo?: () => Promise<API.UserVO | undefined>;
 }> {
   const fetchUserInfo = async () => {
     try {
-      const msg = await queryCurrentUser({
-        skipErrorHandler: true,
-      });
+      const msg = await queryCurrentUser();
       return msg.data;
     } catch (error) {
-      // history.push(loginPath);
+      history.push(loginPath);
     }
     return undefined;
   };
@@ -48,7 +47,6 @@ export async function getInitialState(): Promise<{
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
   return {
-    actionsRender: () => [<SelectLang key="SelectLang" />],
     avatarProps: {
       src: initialState?.currentUser?.avatar,
       title: <AvatarName />,
@@ -57,14 +55,14 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
       },
     },
     waterMarkProps: {
-      content: initialState?.currentUser?.name,
+      content: initialState?.currentUser?.email,
     },
     footerRender: () => <Footer />,
     onPageChange: () => {
       const { location } = history;
       // 如果没有登录，重定向到 login
       if (!initialState?.currentUser && location.pathname !== loginPath) {
-        // history.push(loginPath);
+        history.push(loginPath);
       }
     },
     bgLayoutImgList: [
@@ -116,11 +114,74 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
   };
 };
 
-/**
- * @name request 配置，可以配置错误处理
- * 它基于 axios 和 ahooks 的 useRequest 提供了一套统一的网络请求和错误处理方案。
- * @doc https://umijs.org/docs/max/request#配置
- */
-export const request = {
-  ...errorConfig,
+// Error handling configuration
+export const request: RequestConfig = {
+  // Other request configurations...
+
+  errorConfig: {
+    // Default error handling
+    errorHandler(error: any) {
+      // Handle HTTP errors
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        const { status, data } = error.response;
+
+        switch (status) {
+          case 400:
+            message.error(data.message || '请求参数错误');
+            break;
+          case 401:
+            message.error(data.message || '未授权，请重新登录');
+            // You can redirect to login page here if needed
+            // history.push('/user/login');
+            break;
+          case 403:
+            message.error(data.message || '拒绝访问');
+            break;
+          case 404:
+            message.error(data.message || '请求资源不存在');
+            break;
+          case 500:
+            message.error(data.message || '服务器错误');
+            break;
+          default:
+            message.error(data.message || `请求错误 ${status}`);
+        }
+      } else if (error.request) {
+        // The request was made but no response was received
+        message.error('网络异常，请检查您的网络连接');
+      }
+
+      // Throw the error to stop the execution chain
+      throw error;
+    },
+  },
+
+  // Request interceptors
+  requestInterceptors: [
+    (url: string, options: any) => {
+      // Add your request interceptors here
+      // For example, add authorization token
+      const { get } = useTokenLocalStorage();
+      const token = get();
+
+      if (token) {
+        options.headers = {
+          ...options.headers,
+          Authorization: `Bearer ${token}`,
+        };
+      }
+      return { url, options };
+    },
+  ],
+
+  // Response interceptors
+  responseInterceptors: [
+    (response: any) => {
+      // Add your response interceptors here
+      // You can modify the response data here
+      return response;
+    },
+  ],
 };

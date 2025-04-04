@@ -1,7 +1,6 @@
 // https://umijs.org/config/
 import { defineConfig } from '@umijs/max';
 import defaultSettings from './defaultSettings';
-import proxy from './proxy';
 import routes from './routes';
 
 const { REACT_APP_ENV = 'dev' } = process.env;
@@ -53,7 +52,13 @@ export default defineConfig({
    * @doc 代理介绍 https://umijs.org/docs/guides/proxy
    * @doc 代理配置 https://umijs.org/docs/api/config#proxy
    */
-  proxy: proxy[REACT_APP_ENV as keyof typeof proxy],
+  proxy: {
+    '/api': {
+      target: 'http://localhost:3000/',
+      changeOrigin: true,
+      pathRewrite: { '^/api': '' },
+    },
+  },
   /**
    * @name 快速热更新配置
    * @description 一个不错的热更新组件，更新时可以保留 state
@@ -105,7 +110,34 @@ export default defineConfig({
    * @description 内置了 babel import 插件
    * @doc https://umijs.org/docs/max/antd#antd
    */
-  antd: {},
+  antd: {
+    // 配置主题
+    theme: {
+      token: {
+        colorPrimary: 'black',
+        colorSuccess: '#52c41a',
+        colorWarning: '#faad14',
+        colorError: '#f5222d',
+        colorInfo: '#1890ff',
+        colorTextBase: '#333333',
+        colorBgBase: '#ffffff',
+        colorBorder: '#e6e6e6',
+        colorSplit: '#e6e6e6',
+        colorTextSecondary: '#666666',
+        colorTextDisabled: '#cccccc',
+        colorTextHeading: '#333333',
+        colorTextDescription: '#666666',
+        colorTextPlaceholder: '#aaaaaa',
+        colorFillQuaternary: '#f5f5f5',
+        colorFillTertiary: '#eeeeee',
+        colorFillSecondary: '#dddddd',
+        colorFillAlter: '#f7f7f7',
+        colorBgContainer: '#f7f7f7',
+        colorBgLayout: '#f0f0f0',
+        colorBgSpotlight: '#ffffff',
+      },
+    },
+  },
   /**
    * @name 网络请求配置
    * @description 它基于 axios 和 ahooks 的 useRequest 提供了一套统一的网络请求和错误处理方案。
