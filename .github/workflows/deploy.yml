@@ -39,6 +39,6 @@ jobs:
         with:
           project: "mini-clinic-2025"
           entrypoint: "https://deno.land/std@0.217.0/http/file_server.ts"
-          root: "build"
+          root: "dist"
           
           
