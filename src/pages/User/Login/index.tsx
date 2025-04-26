@@ -58,12 +58,10 @@ const Login: React.FC = () => {
         <LoginForm
           form={form}
           contentStyle={{
-            minWidth: 500,
+            marginTop: 20,
             padding: '40px 40px 24px',
             borderRadius: '8px',
             boxShadow: '0 2px 8px rgba(0, 21, 41, 0.12)',
-            maxWidth: '75vw',
-            height: '400px',
             backgroundColor: 'white',
           }}
           title="智慧微诊所系统"
@@ -109,6 +107,10 @@ const Login: React.FC = () => {
                     required: true,
                     message: '请输入邮箱号！',
                   },
+                  {
+                    type: 'email',
+                    message: '请输入正确的邮箱格式',
+                  },
                 ]}
               />
               <ProFormText.Password
@@ -141,6 +143,10 @@ const Login: React.FC = () => {
                     required: true,
                     message: '请输入邮箱号！',
                   },
+                  {
+                    type: 'email',
+                    message: '请输入正确的邮箱格式',
+                  },
                 ]}
               />
               <ProFormCaptcha
@@ -149,6 +155,7 @@ const Login: React.FC = () => {
                   size: 'large',
                   prefix: <LockOutlined />,
                 }}
+                placeholder={'请输入'}
                 captchaProps={{
                   size: 'large',
                 }}

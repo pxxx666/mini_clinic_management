@@ -17,7 +17,7 @@ export const RegisterForm: React.FC<Props> = (props) => {
   });
   const handleRegister = async () => {
     form.validateFields().then(async (values) => {
-      const { email, password, confirmPassword, role } = values;
+      const { email, password, confirmPassword, role, idCard, realName, phone } = values;
       if (password !== confirmPassword) {
         form.setFields([
           {
@@ -27,7 +27,7 @@ export const RegisterForm: React.FC<Props> = (props) => {
         ]);
         return;
       }
-      await run({ email, password, role });
+      await run({ email, password, role, idCard, realName, phone });
     });
   };
   return (
@@ -35,12 +35,9 @@ export const RegisterForm: React.FC<Props> = (props) => {
       form={form}
       style={{
         marginTop: 20,
-        minWidth: 500,
         padding: '40px 40px 24px',
         borderRadius: '8px',
         boxShadow: '0 2px 8px rgba(0, 21, 41, 0.12)',
-        maxWidth: '75vw',
-        height: '400px',
         backgroundColor: 'white',
       }}
     >
@@ -65,10 +62,26 @@ export const RegisterForm: React.FC<Props> = (props) => {
         name={'confirmPassword'}
         rules={[{ required: true, message: '请输入确认密码' }]}
       />
+      <ProFormText
+        label="身份证号"
+        name={'idCard'}
+        rules={[{ required: true, message: '请输入身份证号' }]}
+      />
+      <ProFormText
+        label="真实姓名"
+        name={'realName'}
+        rules={[{ required: true, message: '请输入真实姓名' }]}
+      />
+      <ProFormText
+        label="手机号"
+        name={'phone'}
+        rules={[{ required: true, message: '请输入手机号' }]}
+      />
       <ProFormRadio.Group
         name="role"
         label="角色"
         radioType="button"
+        rules={[{ required: true, message: '请选择角色' }]}
         options={[
           {
             label: '医生',

@@ -104,6 +104,9 @@ declare namespace API {
     password: string;
     confirmPassword?: string;
     role: string;
+    idCard: string;
+    realName: string;
+    phone: string;
   }
 
   interface LoginDto {
@@ -120,6 +123,7 @@ declare namespace API {
     userId: number;
     email: string;
     role: string;
+    realName: string;
   }
 
   interface IResponse<T> {
