@@ -1,6 +1,5 @@
 import { Button, Space, Typography } from 'antd';
 import { animated, config, useSpring } from 'react-spring';
-import Typical from 'react-typical';
 
 const { Title, Paragraph } = Typography;
 
@@ -25,13 +24,13 @@ const WelcomeHero = () => {
           欢迎使用
           <span className="highlight"> MedicalNexus</span>
         </Title>
-        <div className="typical-wrapper">
+        {/* <div className="typical-wrapper">
           <Typical
             steps={['提升诊所管理效率', 2000, '优化患者就医体验', 2000, '助力医疗数字化转型', 2000]}
             loop={Infinity}
             wrapper="p"
           />
-        </div>
+        </div> */}
         <Paragraph className="hero-description">
           专业的诊所管理解决方案，助力您的诊所实现智能化、数字化转型
         </Paragraph>

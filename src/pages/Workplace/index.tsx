@@ -1,16 +1,27 @@
-import { Radar } from '@ant-design/charts';
+import {
+  callAppointment,
+  queryAppointmentList,
+  queryDoctorDetail,
+  queryDoctorList,
+  queryDoctorRanking,
+  queryDrugByName,
+  queryDrugList,
+  queryEvaluationsByDoctorId,
+  visitAppointment,
+} from '@/services/ant-design-pro';
+import { generatePrescriptionDoc } from '@/utils/generatePrescriptionDoc';
 import {
   PageContainer,
   ProDescriptions,
-  ProFormList,
-  ProFormGroup,
-  ProFormText,
-  ProFormDigit,
-  ProFormSelect,
-  ProFormTextArea,
   ProForm,
+  ProFormDigit,
+  ProFormGroup,
+  ProFormList,
+  ProFormSelect,
+  ProFormText,
+  ProFormTextArea,
 } from '@ant-design/pro-components';
-import { Link, useRequest } from '@umijs/max';
+import { useModel, useRequest } from '@umijs/max';
 import {
   Avatar,
   Button,
@@ -31,23 +42,9 @@ import {
 } from 'antd';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { useEffect, useState, type FC } from 'react';
-import useStyles from './style.style';
-import { useModel } from '@/.umi/plugin-model';
-import {
-  callAppointment,
-  queryAppointmentList,
-  queryDoctorDetail,
-  queryDoctorList,
-  queryDoctorRanking,
-  queryDrugByName,
-  queryDrugList,
-  queryEvaluationsByDoctorId,
-  visitAppointment,
-} from '@/services/ant-design-pro';
-import { generatePrescriptionDoc } from '@/utils/generatePrescriptionDoc';
-import DemoRadar from './AppRadar';
+import { useState, type FC } from 'react';
 import AppRadar from './AppRadar';
+import useStyles from './style.style';
 dayjs.extend(relativeTime);
 
 const PageHeaderContent: FC<{
