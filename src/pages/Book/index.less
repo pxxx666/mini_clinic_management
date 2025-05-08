@@ -1,0 +1,49 @@
+.filterCard {
+  margin-bottom: 24px;
+}
+
+.filterForm {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.doctorTitle {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+
+  span {
+    margin-right: 8px;
+    font-weight: bold;
+    font-size: 16px;
+  }
+
+  .doctorDepartment {
+    color: rgba(0, 0, 0, 0.65);
+    font-weight: normal;
+  }
+}
+
+.specialties {
+  margin-bottom: 8px;
+}
+
+/* Card styling override */
+:global {
+  .ant-pro-list-row-card {
+    margin-bottom: 16px;
+    transition: all 0.3s;
+
+    &:hover {
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  .ant-pro-list .ant-list-item-meta {
+    align-items: flex-start;
+  }
+
+  .ant-list-grid .ant-col > .ant-list-item {
+    margin-bottom: 16px;
+  }
+}

@@ -1,4 +1,6 @@
-﻿/**
+﻿import access from '@/access';
+
+/**
  * @name umi 的路由配置
  * @description 只支持 path,component,routes,redirect,wrappers,name,icon 的配置
  * @param path  path 只支持两种占位符配置，第一种是动态参数 :id 的形式，第二种是 * 通配符，通配符只能出现路由字符串的最后。
@@ -22,11 +24,73 @@ export default [
       },
     ],
   },
+
+  {
+    path: '/landing',
+    name: 'landing',
+    layout: false,
+    component: './Landing',
+  },
+
   {
     path: '/welcome',
     name: 'welcome',
     icon: 'smile',
     component: './Welcome',
+  },
+  {
+    path: '/doctor/workplace',
+    name: '工作台',
+    icon: 'FormOutlined',
+    component: './Workplace',
+    access: 'canDoctor',
+  },
+  {
+    path: '/doctor/enter',
+    name: '个人信息',
+    icon: 'UserOutlined',
+    component: './Doctor/Enter',
+    access: 'canDoctor',
+  },
+  {
+    path: '/rating',
+    name: '我的评价',
+    icon: 'star',
+    component: './Rating',
+    access: 'canDoctor',
+  },
+  {
+    path: '/user/management',
+    name: '用户管理',
+    icon: 'team',
+    access: 'canAdmin',
+    component: './User/Management',
+  },
+  {
+    path: '/health-tools',
+    name: '健康管理工具',
+    icon: 'tool',
+    component: './HealthTools',
+  },
+
+  {
+    path: '/records',
+    name: '健康记录',
+    icon: 'ReconciliationOutlined',
+    component: './Record',
+    access: 'canPatient',
+  },
+  {
+    path: '/book',
+    name: '预约',
+    icon: 'PlusCircleOutlined',
+    component: './Book',
+  },
+  {
+    path: '/book/create/:doctorId',
+    name: '创建预约',
+    component: './Book/Create',
+    hideInMenu: true,
   },
   {
     path: '/aiDoctor',
@@ -35,31 +99,29 @@ export default [
     component: './AiDoctor',
   },
   {
-    path: '/admin',
-    name: 'admin',
-    icon: 'crown',
+    path: '/department',
+    name: '科室管理',
+    icon: 'ApartmentOutlined',
+    component: './DepartmentManagement',
+  },
+
+  {
+    path: '/doctor/manage',
+    name: '医生信息管理',
+    icon: 'UserOutlined',
     access: 'canAdmin',
-    routes: [
-      {
-        path: '/admin',
-        redirect: '/admin/sub-page',
-      },
-      {
-        path: '/admin/sub-page',
-        name: 'sub-page',
-        component: './Admin',
-      },
-    ],
+    component: './Doctor/Manage',
   },
   {
-    name: 'list.table-list',
-    icon: 'table',
-    path: '/list',
-    component: './TableList',
+    path: '/drug',
+    name: '药物管理',
+    icon: 'MedicineBoxOutlined',
+    access: 'canAdmin',
+    component: './DrugManagement',
   },
   {
     path: '/',
-    redirect: '/welcome',
+    redirect: '/landing',
   },
   {
     path: '*',

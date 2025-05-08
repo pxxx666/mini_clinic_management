@@ -19,18 +19,30 @@ export async function getInitialState(): Promise<{
   loading?: boolean;
   fetchUserInfo?: () => Promise<API.UserVO | undefined>;
 }> {
+  // 由于 getInitialState 不是 React 函数组件或自定义 Hook，不能直接调用 React Hook。
+  // 这里可以创建一个独立的函数来处理从 localStorage 获取和移除 token 的操作。
+  const getTokenRemover = () => {
+    // 模拟 useTokenLocalStorage 的返回值，实际需要根据 useTokenLocalStorage 的实现调整
+    const remove = () => {
+      localStorage.removeItem('token'); // 假设存储的 key 是 'token'，需根据实际情况修改
+    };
+    return remove;
+  };
+
+  const remove = getTokenRemover();
   const fetchUserInfo = async () => {
     try {
       const msg = await queryCurrentUser();
       return msg.data;
     } catch (error) {
-      history.push(loginPath);
+      history.push('/landing');
+      remove();
     }
     return undefined;
   };
   // 如果不是登录页面，执行
   const { location } = history;
-  if (location.pathname !== loginPath) {
+  if (location.pathname !== loginPath && location.pathname !== '/landing') {
     const currentUser = await fetchUserInfo();
     return {
       fetchUserInfo,

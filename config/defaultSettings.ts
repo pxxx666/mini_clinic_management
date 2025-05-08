@@ -9,13 +9,13 @@ const Settings: ProLayoutProps & {
 } = {
   navTheme: 'light',
   // 拂晓蓝
-  colorPrimary: 'black',
+  // colorPrimary: 'black',
   layout: 'mix',
   contentWidth: 'Fluid',
   fixedHeader: false,
   fixSiderbar: true,
   colorWeak: false,
-  title: '智慧微诊所系统',
+  title: 'MedicalNexus',
   pwa: true,
   logo: false,
   iconfontUrl: '',

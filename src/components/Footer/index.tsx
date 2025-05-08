@@ -11,7 +11,7 @@ const Footer: React.FC = () => {
       links={[
         {
           key: 'title',
-          title: '智慧微诊所系统',
+          title: 'MedicalNexus',
           blankTarget: true,
         },
         {

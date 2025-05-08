@@ -33,8 +33,7 @@ const Login: React.FC = () => {
   const { run: LoginRun } = useRequest(login, {
     manual: true,
     onSuccess: async (res) => {
-      const urlParams = new URL(window.location.href).searchParams;
-      history.push(urlParams.get('redirect') || '/');
+      history.push('/welcome');
       message.success('登录成功！');
       await set(res.access_token);
       await fetchUserInfo();
@@ -64,7 +63,8 @@ const Login: React.FC = () => {
             boxShadow: '0 2px 8px rgba(0, 21, 41, 0.12)',
             backgroundColor: 'white',
           }}
-          title="智慧微诊所系统"
+          title="MedicalNexus
+"
           initialValues={{
             autoLogin: true,
           }}
