@@ -122,6 +122,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
 // Error handling configuration
 export const request: RequestConfig = {
   // Other request configurations...
+  baseURL: process.env.NODE_ENV === 'development' ? '/api' : 'http://192.168.80.1:3000',
 
   errorConfig: {
     // Default error handling
